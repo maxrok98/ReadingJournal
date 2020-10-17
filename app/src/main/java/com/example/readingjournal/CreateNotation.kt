@@ -17,10 +17,8 @@ class CreateNotation : AppCompatActivity() {
     private fun showInfo() {
         val title = findViewById<EditText>(R.id.editTextTextPersonName2)
         val text = findViewById<EditText>(R.id.editTextTextMultiLine)
-        val checkBox = findViewById<CheckBox>(R.id.checkBox)
-        val radioButton = findViewById<RadioButton>(R.id.radioButton)
 
-        val toast = Toast.makeText(applicationContext,"Title: ${title.text}\n Text: ${text.text}\n Radio button pressed: ${radioButton.isPressed}\n Check box: ${checkBox.isChecked}", Toast.LENGTH_LONG )
+        val toast = Toast.makeText(applicationContext,"Title: ${title.text}\n Text: ${text.text}\n", Toast.LENGTH_LONG )
         toast.show()
 
         title.setText("")

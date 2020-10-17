@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/opening">
+
+    <fragment
+        android:id="@+id/opening"
+        android:name="com.example.readingjournal.Opening"
+        android:label="Opening" >
+        <action
+            android:id="@+id/action_opening_to_listOfBooks"
+            app:destination="@id/listOfBooks" />
+    </fragment>
+    <fragment
+        android:id="@+id/listOfBooks"
+        android:name="com.example.readingjournal.ListOfBooks"
+        android:label="ListOfBooks" >
+        <action
+            android:id="@+id/action_listOfBooks_to_newBook"
+            app:destination="@id/newBook" />
+        <action
+            android:id="@+id/action_listOfBooks_to_listOfNotations"
+            app:destination="@id/listOfNotations" />
+    </fragment>
+    <fragment
+        android:id="@+id/newBook"
+        android:name="com.example.readingjournal.NewBook"
+        android:label="fragment_new_book"
+        tools:layout="@layout/fragment_new_book" />
+    <fragment
+        android:id="@+id/listOfNotations"
+        android:name="com.example.readingjournal.ListOfNotations"
+        android:label="fragment_list_of_notations"
+        tools:layout="@layout/fragment_list_of_notations" >
+        <argument
+            android:name="book"
+            app:argType="com.example.readingjournal.Book" />
+        <action
+            android:id="@+id/action_listOfNotations_to_openNotation"
+            app:destination="@id/openNotation" />
+    </fragment>
+    <fragment
+        android:id="@+id/openNotation"
+        android:name="com.example.readingjournal.OpenNotation"
+        android:label="fragment_open_notation"
+        tools:layout="@layout/fragment_open_notation" >
+        <argument
+            android:name="notation"
+            app:argType="com.example.readingjournal.Notation" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.readingjournal.About"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
+</navigation>

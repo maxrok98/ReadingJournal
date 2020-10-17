@@ -5,29 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
+import com.example.readingjournal.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     var num: Int = 0;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val buttonNotation = findViewById<Button>(R.id.new_notation_button)
-        buttonNotation.setOnClickListener{
-            openCreateNotation()
-        }
+        //setContentView(R.layout.activity_main)
+        @Suppress("UNUSED_VARIABLE")
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        NavigationUI.setupActionBarWithNavController(this, navController)
     }
 
-    private fun openCreateNotation() {
-        val randomIntent = Intent(this, CreateNotation::class.java)
-        startActivity(randomIntent)
-    }
-
-    fun showRandom(view: View){
-        val randomIntent = Intent(this, CreateBook::class.java)
-
-        randomIntent.putExtra(CreateBook.JUST_KEY, num)
-
-        startActivity(randomIntent)
-    }
 }
