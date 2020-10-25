@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import com.example.readingjournal.databinding.FragmentListOfNotationsBinding
 import com.example.readingjournal.databinding.FragmentOpenNotationBinding
+import timber.log.Timber
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+private const val LIKES_COUNT = "likesCount"
 
 /**
  * A simple [Fragment] subclass.
@@ -23,6 +25,7 @@ class OpenNotation : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var likesCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +48,31 @@ class OpenNotation : Fragment() {
             binding.notation = args.notation
         }
         setHasOptionsMenu(true)
+        if(savedInstanceState != null)
+        {
+            likesCount = savedInstanceState.getInt(LIKES_COUNT, 0)
+        }
+        binding.likes = likesCount
+        binding.buttonLike.setOnClickListener {
+            binding.likes = ++likesCount
+        }
         // Inflate the layout for this fragment
         return binding.root
     }
+
+    /**
+     * Called when the user navigates away from the app but might come back
+     */
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(LIKES_COUNT, likesCount)
+        Timber.i("onSaveInstanceState Called")
+        super.onSaveInstanceState(outState)
+    }
+
+    //override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+    //    super.onRestoreInstanceState(savedInstanceState)
+    //    Timber.i("onRestoreInstanceState Called")
+    //}
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
