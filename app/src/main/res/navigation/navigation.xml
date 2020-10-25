@@ -55,4 +55,9 @@
         android:name="com.example.readingjournal.About"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/rulesFragment"
+        android:name="com.example.readingjournal.Rules"
+        android:label="fragment_rules"
+        tools:layout="@layout/fragment_rules" />
 </navigation>
