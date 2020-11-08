@@ -5,10 +5,11 @@ import android.view.*
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.readingjournal.databinding.FragmentListOfBooksBinding
+import com.example.readingjournal.viewmodels.ListOfBooksViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,17 +26,9 @@ class ListOfBooks : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    val mobileArray = arrayOf(
-        "Android", "IPhone", "WindowsMobile", "Blackberry",
-        "WebOS", "Ubuntu", "Windows7", "Max OS X"
-    )
 
-    val notation1: Notation = Notation("First notation on Feynman`s lectures", "Today i have read first chapter of this book")
-    val book1: Book = Book("Feynman","Lectures on physics")
-    val notation2: Notation = Notation("Nonfiction book", "There are some interesting philosophical conceptions")
-    val book2: Book = Book("Taleb", "Antifragile")
-
-    val books = mutableListOf<Book>()
+    private lateinit var binding: FragmentListOfBooksBinding
+    private lateinit var viewModel: ListOfBooksViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,36 +36,33 @@ class ListOfBooks : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        book1.notations.add(notation1)
-        book2.notations.add(notation2)
-        books.add(book1)
-        books.add(book2)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentListOfBooksBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_list_of_books, container, false)
 
-        val titles: MutableList<String> = mutableListOf()
-        for (titl in books)
-        {
-            titles.add(titl.Title)
-        }
-        binding.bookList.adapter =
-            context?.let { ArrayAdapter<String>(it, R.layout.support_simple_spinner_dropdown_item, titles) }
+        viewModel = ViewModelProvider(this).get(ListOfBooksViewModel::class.java)
 
-        binding.bookList.setOnItemClickListener { parent, v, position, _ ->
-            //val selectedItem = parent.getItemAtPosition(position) as String
-            v.findNavController().navigate(ListOfBooksDirections.actionListOfBooksToListOfNotations(books[position]))
-            //textView.text = "The best football player is $selectedItem"
+        binding.setLifecycleOwner(this)
+        binding.bookList.adapter =
+            context?.let { ArrayAdapter<String>(it, R.layout.support_simple_spinner_dropdown_item,
+                viewModel.titles.value as MutableList<String>
+            ) }
+
+        binding.bookList.setOnItemClickListener{parent, view, position, id ->
+            viewModel.books.value?.get(position)?.let {
+                ListOfBooksDirections.actionListOfBooksToListOfNotations(
+                    it
+                )
+            }?.let { view.findNavController().navigate(it) }
         }
 
         binding.newBookButton.setOnClickListener { v: View ->
             v.findNavController().navigate(ListOfBooksDirections.actionListOfBooksToNewBook())
-            //Navigation.createNavigateOnClickListener(ListOfBooksDirections.actionListOfBooksToNewBook())
         }
 
         setHasOptionsMenu(true)

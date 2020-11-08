@@ -1,14 +1,24 @@
 package com.example.readingjournal
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.*
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.readingjournal.databinding.FragmentListOfNotationsBinding
 import com.example.readingjournal.databinding.FragmentOpenNotationBinding
+import com.example.readingjournal.viewmodels.ListOfNotationViewModel
+import com.example.readingjournal.viewmodels.ListOfNotationViewModelFactory
+import com.example.readingjournal.viewmodels.OpenNotationViewModel
+import com.example.readingjournal.viewmodels.OpenNotationViewModelFactory
 import timber.log.Timber
+import androidx.core.content.getSystemService
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +37,10 @@ class OpenNotation : Fragment() {
     private var param2: String? = null
     private var likesCount = 0
 
+    private lateinit var binding: FragmentOpenNotationBinding
+    private lateinit var viewModel: OpenNotationViewModel
+    private lateinit var viewModelFactory: OpenNotationViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,23 +55,39 @@ class OpenNotation : Fragment() {
     ): View? {
         var args = arguments?.let { OpenNotationArgs.fromBundle(it) }
 
-        val binding: FragmentOpenNotationBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_open_notation, container, false)
-        if (args != null) {
-            //binding.book = args.book
-            binding.notation = args.notation
+
+        if(args != null) {
+            viewModelFactory = OpenNotationViewModelFactory(args.notation)
         }
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(OpenNotationViewModel::class.java)
+        binding.viewModel = viewModel
+
+        binding.setLifecycleOwner(this)
+
+        viewModel.eventBuzz.observe(viewLifecycleOwner, Observer { buzzType ->
+            if (buzzType != OpenNotationViewModel.BuzzType.NO_BUZZ) {
+                buzz(buzzType.pattern)
+                viewModel.onBuzzComplete()
+            }
+        })
+
         setHasOptionsMenu(true)
-        if(savedInstanceState != null)
-        {
-            likesCount = savedInstanceState.getInt(LIKES_COUNT, 0)
-        }
-        binding.likes = likesCount
-        binding.buttonLike.setOnClickListener {
-            binding.likes = ++likesCount
-        }
-        // Inflate the layout for this fragment
         return binding.root
+    }
+    private fun buzz(pattern: LongArray) {
+        val buzzer = activity?.getSystemService<Vibrator>()
+        buzzer?.let {
+            // Vibrate for 500 milliseconds
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                buzzer.vibrate(VibrationEffect.createWaveform(pattern, -1))
+            } else {
+                //deprecated in API 26
+                buzzer.vibrate(pattern, -1)
+            }
+        }
     }
 
     /**

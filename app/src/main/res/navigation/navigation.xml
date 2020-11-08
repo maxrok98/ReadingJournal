@@ -36,7 +36,7 @@
         tools:layout="@layout/fragment_list_of_notations" >
         <argument
             android:name="book"
-            app:argType="com.example.readingjournal.Book" />
+            app:argType="com.example.readingjournal.models.Book" />
         <action
             android:id="@+id/action_listOfNotations_to_openNotation"
             app:destination="@id/openNotation" />
@@ -48,7 +48,7 @@
         tools:layout="@layout/fragment_open_notation" >
         <argument
             android:name="notation"
-            app:argType="com.example.readingjournal.Notation" />
+            app:argType="com.example.readingjournal.models.Notation" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"

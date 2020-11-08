@@ -5,10 +5,13 @@
     <data>
         <variable
             name="notation"
-            type="com.example.readingjournal.Notation" />
+            type="com.example.readingjournal.models.Notation" />
         <variable
             name="likes"
             type="Integer" />
+        <variable
+            name="viewModel"
+            type="com.example.readingjournal.viewmodels.OpenNotationViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +40,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{notation.title}"
+                android:text="@{viewModel.notation.title}"
                 android:textSize="36dp"
                 android:layout_gravity="center"
                 android:textStyle="bold" />
@@ -46,13 +49,13 @@
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{notation.date.toString()}" />
+                android:text="@{viewModel.notation.date.toString()}" />
 
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{notation.text}"
+                android:text="@{viewModel.notation.text}"
                 android:paddingTop="20dp"
                 android:textStyle="italic" />
 
@@ -66,6 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
+                    android:onClick="@{() -> viewModel.like() }"
                     android:text="Like" />
 
                 <TextView
@@ -73,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@{likes.toString()}" />
+                    android:text="@{@string/likes_d(viewModel.likesCount)}" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

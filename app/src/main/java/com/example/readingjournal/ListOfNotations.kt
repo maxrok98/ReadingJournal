@@ -5,10 +5,14 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
 import com.example.readingjournal.databinding.FragmentListOfBooksBinding
 import com.example.readingjournal.databinding.FragmentListOfNotationsBinding
+import com.example.readingjournal.viewmodels.ListOfNotationViewModel
+import com.example.readingjournal.viewmodels.ListOfNotationViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +29,10 @@ class ListOfNotations : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentListOfNotationsBinding
+    private lateinit var viewModel: ListOfNotationViewModel
+    private lateinit var viewModelFactory: ListOfNotationViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -40,28 +48,34 @@ class ListOfNotations : Fragment() {
         // Inflate the layout for this fragment
         var args = arguments?.let { ListOfNotationsArgs.fromBundle(it) }
 
-        val binding: FragmentListOfNotationsBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_list_of_notations, container, false)
-        if (args != null) {
-            binding.book = args.book
-        }
 
-        val titles: MutableList<String> = mutableListOf()
-        if (args != null) {
-            for (titl in args.book.notations)
-            {
-                titles.add(titl.title)
-            }
+        if(args != null) {
+            viewModelFactory = ListOfNotationViewModelFactory(args.book)
         }
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(ListOfNotationViewModel::class.java)
+        binding.viewModel = viewModel
+
+        binding.setLifecycleOwner(this)
         binding.listOfNotations.adapter  =
-            context?.let { ArrayAdapter<String>(it, R.layout.support_simple_spinner_dropdown_item, titles) }
+            context?.let { ArrayAdapter<String>(it, R.layout.support_simple_spinner_dropdown_item,
+                viewModel.titles.value as MutableList<String>
+            ) }
 
         binding.listOfNotations.setOnItemClickListener { parent, v, position, _ ->
-            //val selectedItem = parent.getItemAtPosition(position) as String
             if (args != null) {
-                v.findNavController().navigate(ListOfNotationsDirections.actionListOfNotationsToOpenNotation(args.book.notations[position]))
+                viewModel.book.value?.notations?.get(position)?.let {
+                    ListOfNotationsDirections.actionListOfNotationsToOpenNotation(
+                        it
+                    )
+                }?.let { v.findNavController().navigate(it) }
             }
-            //textView.text = "The best football player is $selectedItem"
+        }
+
+        binding.newNotationButton.setOnClickListener { v ->
+            viewModel.addNotation(binding.notationTitle.text.toString(), binding.notationText.text.toString())
         }
         setHasOptionsMenu(true)
 

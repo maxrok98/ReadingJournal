@@ -5,7 +5,10 @@
    <data>
       <variable
           name="book"
-          type="com.example.readingjournal.Book" />
+          type="com.example.readingjournal.models.Book" />
+      <variable
+          name="viewModel"
+          type="com.example.readingjournal.viewmodels.ListOfNotationViewModel" />
    </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +22,7 @@
        android:id="@+id/textView2"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="@{book.title}"
+       android:text="@{viewModel.book.title}"
        android:textSize="36sp"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +33,7 @@
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:layout_marginTop="28dp"
-       android:text="@{book.author}"
+       android:text="@{viewModel.book.author}"
        android:textSize="18sp"
        android:textStyle="italic"
        app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +60,7 @@
        app:layout_constraintTop_toBottomOf="@+id/listOfNotations" />
 
    <EditText
-       android:id="@+id/editTextTextPersonName4"
+       android:id="@+id/notationTitle"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:ems="10"
@@ -68,7 +71,7 @@
        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
    <Button
-       android:id="@+id/button2"
+       android:id="@+id/newNotationButton"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:text="Save"
@@ -77,14 +80,14 @@
        app:layout_constraintStart_toStartOf="parent" />
 
    <EditText
-       android:id="@+id/editTextTextMultiLine2"
+       android:id="@+id/notationText"
        android:layout_width="match_parent"
        android:layout_height="0dp"
        android:ems="10"
        android:gravity="start|top"
        android:inputType="textMultiLine"
        android:hint="Text"
-       app:layout_constraintBottom_toTopOf="@+id/button2"
+       app:layout_constraintBottom_toTopOf="@+id/newNotationButton"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />

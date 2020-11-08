@@ -2,4 +2,5 @@
     <string name="app_name">Reading Journal</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Reading Journal</string>
+    <string name="likes_d">Likes: %d</string>
 </resources>

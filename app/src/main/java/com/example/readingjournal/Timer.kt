@@ -84,7 +84,7 @@ class Timer(lifecycle: Lifecycle) : LifecycleObserver {
     fun stopTimerFull() {
         // Removes all pending posts of runnable from the handler's queue, effectively stopping the
         // timer
-        Timber.i("App was active - ${( secondsCountFocus.toDouble()/secondsCountFull)*100.0}%")
+        Timber.i("App was active - x = ${secondsCountFocus.toString()}/ y = ${secondsCountFull.toString()},  ${( secondsCountFocus.toDouble()/secondsCountFull)*100.0}%")
         handler1.removeCallbacks(runnable1)
     }
 }

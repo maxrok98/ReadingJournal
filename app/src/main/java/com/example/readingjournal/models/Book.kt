@@ -1,4 +1,4 @@
-package com.example.readingjournal
+package com.example.readingjournal.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
