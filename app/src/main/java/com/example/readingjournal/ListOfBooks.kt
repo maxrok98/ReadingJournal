@@ -2,14 +2,19 @@ package com.example.readingjournal
 
 import android.os.Bundle
 import android.view.*
-import android.widget.ArrayAdapter
+import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.readingjournal.adapters.BooksListViewAdapter
+import com.example.readingjournal.database.BooksDatabase
 import com.example.readingjournal.databinding.FragmentListOfBooksBinding
+import com.example.readingjournal.models.Book
 import com.example.readingjournal.viewmodels.ListOfBooksViewModel
+import com.example.readingjournal.viewmodelfactories.ListOfBooksViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,6 +34,7 @@ class ListOfBooks : Fragment() {
 
     private lateinit var binding: FragmentListOfBooksBinding
     private lateinit var viewModel: ListOfBooksViewModel
+    private lateinit var viewModelFactory: ListOfBooksViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,26 +51,34 @@ class ListOfBooks : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_list_of_books, container, false)
 
-        viewModel = ViewModelProvider(this).get(ListOfBooksViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+        val dataSource = BooksDatabase.getInstance(application).booksDatabaseDao
+        viewModelFactory =
+            ListOfBooksViewModelFactory(
+                dataSource
+            )
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(ListOfBooksViewModel::class.java)
 
-        binding.setLifecycleOwner(this)
-        binding.bookList.adapter =
-            context?.let { ArrayAdapter<String>(it, R.layout.support_simple_spinner_dropdown_item,
-                viewModel.titles.value as MutableList<String>
-            ) }
 
-        binding.bookList.setOnItemClickListener{parent, view, position, id ->
-            viewModel.books.value?.get(position)?.let {
-                ListOfBooksDirections.actionListOfBooksToListOfNotations(
-                    it
+        viewModel.books.observe(viewLifecycleOwner, Observer<List<Book>>() {
+            binding.bookList.adapter =
+                BooksListViewAdapter(
+                    this,
+                    it as ArrayList<Book>
                 )
-            }?.let { view.findNavController().navigate(it) }
-        }
+        })
+
+        binding.bookList.setOnItemClickListener( AdapterView.OnItemClickListener { parent, view, position, id ->
+            val it = parent.getItemIdAtPosition(position)
+            view.findNavController().navigate(ListOfBooksDirections.actionListOfBooksToListOfNotations(it))
+        })
 
         binding.newBookButton.setOnClickListener { v: View ->
             v.findNavController().navigate(ListOfBooksDirections.actionListOfBooksToNewBook())
         }
 
+        binding.setLifecycleOwner(this)
         setHasOptionsMenu(true)
 
         return binding.root

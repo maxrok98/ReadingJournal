@@ -11,14 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.readingjournal.databinding.FragmentListOfNotationsBinding
 import com.example.readingjournal.databinding.FragmentOpenNotationBinding
-import com.example.readingjournal.viewmodels.ListOfNotationViewModel
-import com.example.readingjournal.viewmodels.ListOfNotationViewModelFactory
 import com.example.readingjournal.viewmodels.OpenNotationViewModel
-import com.example.readingjournal.viewmodels.OpenNotationViewModelFactory
+import com.example.readingjournal.viewmodelfactories.OpenNotationViewModelFactory
 import timber.log.Timber
 import androidx.core.content.getSystemService
+import com.example.readingjournal.database.BooksDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,8 +56,10 @@ class OpenNotation : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_open_notation, container, false)
 
+        val application = requireNotNull(this.activity).application
+        val dataSource = BooksDatabase.getInstance(application).notationsDatabaseDao
         if(args != null) {
-            viewModelFactory = OpenNotationViewModelFactory(args.notation)
+            viewModelFactory = OpenNotationViewModelFactory(args.notationId, dataSource)
         }
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(OpenNotationViewModel::class.java)
@@ -117,7 +117,8 @@ class OpenNotation : Fragment() {
     private fun getShareIntent() : Intent {
         val args = OpenNotationArgs.fromBundle(requireArguments())
         return ShareCompat.IntentBuilder.from(requireActivity())
-            .setText("My new notation\n Title: ${args.notation.title}\n Text: ${args.notation.text}")
+            //.setText("My new notation\n Title: ${viewModel.notation.value!!.title}\n Text: ${viewModel.notation.value!!.text}")
+            .setText("Test text")
             .setType("text/plain")
             .intent
     }

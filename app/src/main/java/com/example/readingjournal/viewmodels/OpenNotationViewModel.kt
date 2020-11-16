@@ -3,14 +3,20 @@ package com.example.readingjournal.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.readingjournal.database.NotationsDatabaseDao
 import com.example.readingjournal.models.Notation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 private val CORRECT_BUZZ_PATTERN = longArrayOf(100, 100, 100, 100, 100, 100)
 private val PANIC_BUZZ_PATTERN = longArrayOf(0, 200)
 private val GAME_OVER_BUZZ_PATTERN = longArrayOf(0, 2000)
 private val NO_BUZZ_PATTERN = longArrayOf(0)
 
-class OpenNotationViewModel(notation: Notation): ViewModel(){
+class OpenNotationViewModel(private val notationId: Long,
+                            private  val database: NotationsDatabaseDao): ViewModel(){
 
     enum class BuzzType(val pattern: LongArray) {
         CORRECT(CORRECT_BUZZ_PATTERN),
@@ -35,27 +41,70 @@ class OpenNotationViewModel(notation: Notation): ViewModel(){
         private const val COUNTDOWN_TIME = 60000L
 
     }
+
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main +  viewModelJob)
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+
     private val _notation = MutableLiveData<Notation>()
     val notation: LiveData<Notation>
         get() = _notation
 
-    private val _likesCount = MutableLiveData<Int>()
-    val likesCount: LiveData<Int>
-        get() = _likesCount
 
     private val _eventBuzz = MutableLiveData<BuzzType>()
     val eventBuzz: LiveData<BuzzType>
         get() = _eventBuzz
 
     init {
-        _notation.value = notation
-        _likesCount.value = 0
+        initializeNotation()
+        //_likesCount.value = 0
+    }
+
+    private fun initializeNotation() {
+        uiScope.launch {
+            _notation.value = getNotationFromDb()
+        }
+    }
+
+    private suspend fun getNotationFromDb():  Notation? {
+        return database.get(notationId)
+    }
+
+    private suspend fun clear() {
+        database.clear()
+    }
+
+    private suspend fun update(notation: Notation) {
+        database.update(notation)
+    }
+
+    private suspend fun insert(notation: Notation) {
+        database.insert(notation)
+    }
+
+    fun addNotation(title: String, text: String){
+        uiScope.launch {
+            val notation = Notation(title = title, text = text)
+            insert(notation)
+        }
     }
 
     fun like(){
-        _likesCount.value = (_likesCount.value)?.plus(1)
-        if(_likesCount.value!! % 10 == 0)
-            _eventBuzz.value = BuzzType.CORRECT
+        uiScope.launch {
+            val not = database.get(notationId)
+            if (not != null) {
+                not?.likes = not?.likes?.plus(1)!!
+                update(not)
+                initializeNotation()
+            }
+        }
+        //if(_notation.value!!.likes % 10 == 0) {
+        //    _eventBuzz.value = BuzzType.CORRECT
+        //}
     }
 
     fun onBuzzComplete() {

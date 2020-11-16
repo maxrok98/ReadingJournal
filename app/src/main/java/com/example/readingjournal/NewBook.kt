@@ -2,9 +2,15 @@ package com.example.readingjournal
 
 import android.os.Bundle
 import android.view.*
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.readingjournal.database.BooksDatabase
+import com.example.readingjournal.databinding.FragmentNewBookBinding
+import com.example.readingjournal.viewmodels.NewBookViewModel
+import com.example.readingjournal.viewmodelfactories.NewBookViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +27,10 @@ class NewBook : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var binding: FragmentNewBookBinding
+    private lateinit var viewModel: NewBookViewModel
+    private lateinit var viewModelFactory: NewBookViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,8 +44,26 @@ class NewBook : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+        binding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_new_book, container, false)
+
+        val application = requireNotNull(this.activity).application
+        val dataSource = BooksDatabase.getInstance(application).booksDatabaseDao
+        viewModelFactory =
+            NewBookViewModelFactory(
+                dataSource
+            )
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(NewBookViewModel::class.java)
+
+        binding.button.setOnClickListener { v ->
+            viewModel.addBook(binding.bookAuthor.text.toString(), binding.bookTitle.text.toString())
+        }
+
+        binding.setLifecycleOwner(this)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_new_book, container, false)
+        //return inflater.inflate(R.layout.fragment_new_book, container, false)
+        return binding.root
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

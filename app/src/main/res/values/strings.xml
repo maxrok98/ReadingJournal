@@ -3,4 +3,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Reading Journal</string>
     <string name="likes_d">Likes: %d</string>
+    <string name="cleared_notations_message">All notations from this book is deleted</string>
 </resources>

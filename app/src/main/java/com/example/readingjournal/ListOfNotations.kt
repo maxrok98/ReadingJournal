@@ -5,14 +5,19 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI
-import com.example.readingjournal.databinding.FragmentListOfBooksBinding
+import com.example.readingjournal.adapters.BooksListViewAdapter
+import com.example.readingjournal.adapters.NotationsListViewAdapter
+import com.example.readingjournal.database.BooksDatabase
 import com.example.readingjournal.databinding.FragmentListOfNotationsBinding
+import com.example.readingjournal.models.Book
+import com.example.readingjournal.models.Notation
 import com.example.readingjournal.viewmodels.ListOfNotationViewModel
-import com.example.readingjournal.viewmodels.ListOfNotationViewModelFactory
+import com.example.readingjournal.viewmodelfactories.ListOfNotationViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,32 +56,56 @@ class ListOfNotations : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_list_of_notations, container, false)
 
+        val application = requireNotNull(this.activity).application
+        val notationsSource = BooksDatabase.getInstance(application).notationsDatabaseDao
+        val booksSource = BooksDatabase.getInstance(application).booksDatabaseDao
         if(args != null) {
-            viewModelFactory = ListOfNotationViewModelFactory(args.book)
+            viewModelFactory =
+                ListOfNotationViewModelFactory(
+                    args.bookId,
+                    notationsSource,
+                    booksSource
+                )
         }
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(ListOfNotationViewModel::class.java)
-        binding.viewModel = viewModel
 
-        binding.setLifecycleOwner(this)
-        binding.listOfNotations.adapter  =
-            context?.let { ArrayAdapter<String>(it, R.layout.support_simple_spinner_dropdown_item,
-                viewModel.titles.value as MutableList<String>
-            ) }
+
+        viewModel.notation.observe(viewLifecycleOwner, Observer<List<Notation>>() {
+            binding.listOfNotations.adapter =
+                NotationsListViewAdapter(
+                    this,
+                    it as ArrayList<Notation>
+                )
+        })
+        viewModel.showSnackBarEvent.observe(viewLifecycleOwner, Observer {
+            if (it == true) { // Observed state is true.
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    getString(R.string.cleared_notations_message),
+                    Snackbar.LENGTH_SHORT // How long to display the message.
+                ).show()
+                // Reset state to make sure the snackbar is only shown once, even if the device
+                // has a configuration change.
+                viewModel.doneShowingSnackbar()
+            }
+        })
+        //binding.listOfNotations.adapter  =
+        //    context?.let { ArrayAdapter<String>(it, R.layout.support_simple_spinner_dropdown_item,
+        //        viewModel.titles.value as MutableList<String>
+        //    ) }
 
         binding.listOfNotations.setOnItemClickListener { parent, v, position, _ ->
-            if (args != null) {
-                viewModel.book.value?.notations?.get(position)?.let {
-                    ListOfNotationsDirections.actionListOfNotationsToOpenNotation(
-                        it
-                    )
-                }?.let { v.findNavController().navigate(it) }
-            }
+            val id = parent.getItemIdAtPosition(position)
+            v.findNavController().navigate(ListOfNotationsDirections.actionListOfNotationsToOpenNotation(id))
         }
 
         binding.newNotationButton.setOnClickListener { v ->
             viewModel.addNotation(binding.notationTitle.text.toString(), binding.notationText.text.toString())
         }
+
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
         setHasOptionsMenu(true)
 
         return binding.root

@@ -90,7 +90,17 @@
        app:layout_constraintBottom_toTopOf="@+id/newNotationButton"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName4" />
+       app:layout_constraintTop_toBottomOf="@+id/notationTitle" />
+
+   <Button
+       android:id="@+id/button2"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Delete all"
+       android:enabled="@{viewModel.clearButtonVisible}"
+       android:onClick="@{() -> viewModel.onClear()}"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
