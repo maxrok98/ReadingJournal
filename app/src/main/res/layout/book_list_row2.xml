@@ -8,12 +8,17 @@
         <variable
             name="book"
             type="com.example.readingjournal.models.Book" />
+        <variable
+            name="clickListener"
+            type="com.example.readingjournal.adapters.BookListListener" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:focusable="false"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:onClick="@{() -> clickListener.onClick(book)}"
+    >
 
     <TextView
         android:id="@+id/bookItemTitle"
@@ -21,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:text="@{book.title}"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="TextView"
+        android:text="@{book.author}"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bookItemTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

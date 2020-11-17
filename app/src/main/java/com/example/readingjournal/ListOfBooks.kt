@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.readingjournal.adapters.BookListListener
 import com.example.readingjournal.adapters.BooksListViewAdapter
 import com.example.readingjournal.adapters.BooksRecyclerViewAdapter
 import com.example.readingjournal.database.BooksDatabase
@@ -70,7 +71,9 @@ class ListOfBooks : Fragment() {
         //        )
         //})
 
-        val adapter = BooksRecyclerViewAdapter()
+        val adapter = BooksRecyclerViewAdapter(BookListListener { bookId ->
+            view?.findNavController()?.navigate(ListOfBooksDirections.actionListOfBooksToListOfNotations(bookId))
+        })
         binding.bookList.adapter = adapter
 
         viewModel.books.observe(viewLifecycleOwner, Observer {
@@ -81,7 +84,6 @@ class ListOfBooks : Fragment() {
 
         //binding.bookList.setOnItemClickListener( AdapterView.OnItemClickListener { parent, view, position, id ->
         //    val it = parent.getItemIdAtPosition(position)
-        //    view.findNavController().navigate(ListOfBooksDirections.actionListOfBooksToListOfNotations(it))
         //})
 
         binding.newBookButton.setOnClickListener { v: View ->

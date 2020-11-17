@@ -12,12 +12,12 @@ import com.example.readingjournal.R
 import com.example.readingjournal.databinding.BookListRow2Binding
 import com.example.readingjournal.models.Book
 
-class BooksRecyclerViewAdapter: ListAdapter<Book, BooksRecyclerViewAdapter.ViewHolder>(BookDiffCallBack()) {
+class BooksRecyclerViewAdapter(val clickListener: BookListListener): ListAdapter<Book, BooksRecyclerViewAdapter.ViewHolder>(BookDiffCallBack()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 
-        holder.bind(item)
+        holder.bind(clickListener, item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,9 +26,9 @@ class BooksRecyclerViewAdapter: ListAdapter<Book, BooksRecyclerViewAdapter.ViewH
 
     class ViewHolder private constructor (val binding: BookListRow2Binding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item: Book){
-            binding.bookItemAuthor.text = item.Author
-            binding.bookItemTitle.text = item.Title
+        fun bind(clickListener: BookListListener, item: Book){
+            binding.clickListener = clickListener
+            binding.book = item
         }
         companion object{
             fun from(parent: ViewGroup):ViewHolder{
@@ -52,4 +52,7 @@ class BookDiffCallBack: DiffUtil.ItemCallback<Book>(){
         return oldItem == newItem
     }
 
+}
+class BookListListener(val clickListener: (bookId: Long) -> Unit){
+    fun onClick(book: Book) = clickListener(book.Id)
 }
