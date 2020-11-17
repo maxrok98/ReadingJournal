@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.readingjournal.adapters.BooksListViewAdapter
+import com.example.readingjournal.adapters.BooksRecyclerViewAdapter
 import com.example.readingjournal.database.BooksDatabase
 import com.example.readingjournal.databinding.FragmentListOfBooksBinding
 import com.example.readingjournal.models.Book
@@ -61,18 +62,27 @@ class ListOfBooks : Fragment() {
             .get(ListOfBooksViewModel::class.java)
 
 
-        viewModel.books.observe(viewLifecycleOwner, Observer<List<Book>>() {
-            binding.bookList.adapter =
-                BooksListViewAdapter(
-                    this,
-                    it as ArrayList<Book>
-                )
+        //viewModel.books.observe(viewLifecycleOwner, Observer<List<Book>>() {
+        //    binding.bookList.adapter =
+        //        BooksListViewAdapter(
+        //            this,
+        //            it as ArrayList<Book>
+        //        )
+        //})
+
+        val adapter = BooksRecyclerViewAdapter()
+        binding.bookList.adapter = adapter
+
+        viewModel.books.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.data = it
+            }
         })
 
-        binding.bookList.setOnItemClickListener( AdapterView.OnItemClickListener { parent, view, position, id ->
-            val it = parent.getItemIdAtPosition(position)
-            view.findNavController().navigate(ListOfBooksDirections.actionListOfBooksToListOfNotations(it))
-        })
+        //binding.bookList.setOnItemClickListener( AdapterView.OnItemClickListener { parent, view, position, id ->
+        //    val it = parent.getItemIdAtPosition(position)
+        //    view.findNavController().navigate(ListOfBooksDirections.actionListOfBooksToListOfNotations(it))
+        //})
 
         binding.newBookButton.setOnClickListener { v: View ->
             v.findNavController().navigate(ListOfBooksDirections.actionListOfBooksToNewBook())

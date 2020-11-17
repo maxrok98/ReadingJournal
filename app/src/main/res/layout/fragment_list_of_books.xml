@@ -91,10 +91,16 @@
         android:orientation="horizontal"
         android:layout_weight="1"
         >
-        <ListView
+        <!--<ListView
             android:id="@+id/bookList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            />-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bookList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
     </LinearLayout>
 
