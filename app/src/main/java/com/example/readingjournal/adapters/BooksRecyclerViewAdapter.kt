@@ -5,21 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.readingjournal.R
 import com.example.readingjournal.models.Book
 
-class BooksRecyclerViewAdapter: RecyclerView.Adapter<BooksRecyclerViewAdapter.ViewHolder>() {
-    var data = listOf<Book>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
-    override fun getItemCount() = data.size
+class BooksRecyclerViewAdapter: ListAdapter<Book, BooksRecyclerViewAdapter.ViewHolder>(BookDiffCallBack()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
+        val item = getItem(position)
 
         holder.bind(item)
     }
@@ -46,4 +41,15 @@ class BooksRecyclerViewAdapter: RecyclerView.Adapter<BooksRecyclerViewAdapter.Vi
             }
         }
     }
+}
+
+class BookDiffCallBack: DiffUtil.ItemCallback<Book>(){
+    override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
+        return oldItem.Id == newItem.Id
+    }
+
+    override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
+        return oldItem == newItem
+    }
+
 }
