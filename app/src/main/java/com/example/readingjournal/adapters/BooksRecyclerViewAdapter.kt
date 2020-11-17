@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.readingjournal.R
+import com.example.readingjournal.databinding.BookListRow2Binding
 import com.example.readingjournal.models.Book
 
 class BooksRecyclerViewAdapter: ListAdapter<Book, BooksRecyclerViewAdapter.ViewHolder>(BookDiffCallBack()) {
@@ -23,21 +24,20 @@ class BooksRecyclerViewAdapter: ListAdapter<Book, BooksRecyclerViewAdapter.ViewH
         return ViewHolder.from(parent)
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val bookTitle: TextView = itemView.findViewById(R.id.bookItemTitle)
-        val bookAuthor: TextView = itemView.findViewById(R.id.bookItemAuthor)
+    class ViewHolder private constructor (val binding: BookListRow2Binding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: Book){
-            bookAuthor.text = item.Author
-            bookTitle.text = item.Title
+            binding.bookItemAuthor.text = item.Author
+            binding.bookItemTitle.text = item.Title
         }
         companion object{
             fun from(parent: ViewGroup):ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = BookListRow2Binding.inflate(layoutInflater, parent, false)
                 val view = layoutInflater
                     .inflate(R.layout.book_list_row2, parent, false)
 
-                return ViewHolder(view)
+                return ViewHolder(binding)
             }
         }
     }
