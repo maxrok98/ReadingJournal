@@ -21,26 +21,29 @@ class BooksRecyclerViewAdapter: RecyclerView.Adapter<BooksRecyclerViewAdapter.Vi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
 
-        val res = holder.itemView.context.resources
-
-        holder.bookAuthor.text = item.Author
-        holder.bookTitle.text = item.Title
-
+        holder.bind(item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater
-            .inflate(R.layout.book_list_row2, parent, false)
-
-        return ViewHolder(view)
+        return ViewHolder.from(parent)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val bookTitle: TextView = itemView.findViewById(R.id.bookItemTitle)
         val bookAuthor: TextView = itemView.findViewById(R.id.bookItemAuthor)
-        //val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
-        //val quality: TextView = itemView.findViewById(R.id.quality_string)
-        //val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
+
+        fun bind(item: Book){
+            bookAuthor.text = item.Author
+            bookTitle.text = item.Title
+        }
+        companion object{
+            fun from(parent: ViewGroup):ViewHolder{
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val view = layoutInflater
+                    .inflate(R.layout.book_list_row2, parent, false)
+
+                return ViewHolder(view)
+            }
+        }
     }
 }
