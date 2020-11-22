@@ -15,6 +15,9 @@ data class Book (
     val Author: String,
 
     @ColumnInfo(name = "title")
-    val Title: String
+    val Title: String,
+
+    @ColumnInfo(name = "thumbnailURL")
+    val thumbnailURL: String?
 )
 

@@ -2,11 +2,15 @@ package com.example.readingjournal
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.readingjournal.database.BooksDatabase
 import com.example.readingjournal.databinding.FragmentNewBookBinding
 import com.example.readingjournal.viewmodels.NewBookViewModel
@@ -56,14 +60,35 @@ class NewBook : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(NewBookViewModel::class.java)
 
+        binding.viewModel = viewModel
+
         binding.button.setOnClickListener { v ->
             viewModel.addBook(binding.bookAuthor.text.toString(), binding.bookTitle.text.toString())
         }
+        binding.buttonLoadInfo.setOnClickListener { v ->
+            viewModel.getBookFromApi(binding.ISBN.text.toString())
+        }
+        viewModel.status.observe(viewLifecycleOwner, Observer {
+            if(it == "Done")
+                changeImage()
+        })
 
         binding.setLifecycleOwner(this)
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_new_book, container, false)
         return binding.root
+    }
+    fun changeImage(){
+        viewModel.property.value?.items!![0]?.info.imgSrcUrl.thumbnail?.let{
+            val imgUri = it.toUri().buildUpon().scheme("http").build()
+            Glide.with(binding.imageView.context)
+                .load(imgUri)
+                .apply(RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image))
+                .into(binding.imageView)
+
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

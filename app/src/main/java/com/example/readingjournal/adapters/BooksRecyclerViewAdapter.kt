@@ -5,9 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.readingjournal.R
 import com.example.readingjournal.databinding.BookListRow2Binding
 import com.example.readingjournal.models.Book
@@ -29,7 +32,18 @@ class BooksRecyclerViewAdapter(val clickListener: BookListListener): ListAdapter
         fun bind(clickListener: BookListListener, item: Book){
             binding.clickListener = clickListener
             binding.book = item
+            item.thumbnailURL?.let {
+                val imgUri = it.toUri().buildUpon().scheme("http").build()
+                Glide.with(binding.imageViewBook.context)
+                    .load(imgUri)
+                    .apply(
+                        RequestOptions()
+                        .placeholder(R.drawable.loading_animation)
+                        .error(R.drawable.ic_broken_image))
+                    .into(binding.imageViewBook)
+            }
         }
+
         companion object{
             fun from(parent: ViewGroup):ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)

@@ -2,6 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.readingjournal.viewmodels.NewBookViewModel" />
+    </data>
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,7 +35,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="132dp"
         android:layout_marginEnd="-1dp"
-
+        android:text="@{viewModel.title}"
         android:ems="10"
         android:hint="Title"
         android:inputType="textPersonName"
@@ -43,6 +48,7 @@
         android:layout_below="@+id/bookTitle"
         android:layout_marginTop="11dp"
         android:ems="10"
+        android:text="@{viewModel.author}"
         android:inputType="textPersonName"
         android:hint="Author" />
 
@@ -55,5 +61,32 @@
         android:layout_marginEnd="7dp"
         android:layout_marginBottom="5dp"
         android:text="Save new book" />
+
+    <EditText
+        android:id="@+id/ISBN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bookAuthor"
+        android:layout_marginTop="72dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="ISBN"
+        />
+
+    <Button
+        android:id="@+id/buttonLoadInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ISBN"
+        android:layout_marginTop="6dp"
+        android:text="Load info" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonLoadInfo"
+        android:layout_marginBottom="-77dp"
+        android:text="@{viewModel.status}" />
 </RelativeLayout>
 </layout>
