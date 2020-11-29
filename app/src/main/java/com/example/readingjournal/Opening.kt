@@ -2,12 +2,19 @@ package com.example.readingjournal
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.readingjournal.databinding.FragmentOpeningBinding
+import com.example.readingjournal.viewmodelfactories.OpeningViewModelFactory
+import com.example.readingjournal.viewmodels.OpeningViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,6 +39,7 @@ class Opening : Fragment() {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,10 +47,31 @@ class Opening : Fragment() {
         val binding: FragmentOpeningBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_opening, container, false)
         binding.openButton.setOnClickListener { v: View ->
-            //Navigation.createNavigateOnClickListener(R.id.action_opening_to_listOfBooks)
             v.findNavController().navigate(OpeningDirections.actionOpeningToListOfBooks())
-            //v.findNavController().navigate(TitleFragmentDirections.actionTitleFragmentToGameFragment())
         }
+
+        val app = requireNotNull(this.activity).application
+        val viewModelFactory = OpeningViewModelFactory(app)
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(OpeningViewModel::class.java)
+        binding.viewModel = viewModel
+
+        viewModel.lastBook.observe(viewLifecycleOwner, Observer{
+            binding.viewModel = viewModel
+            it?.thumbnailURL?.let {
+                val imgUri = it.toUri().buildUpon().scheme("http").build()
+                Glide.with(binding.imageView4.context)
+                    .load(imgUri)
+                    .apply(
+                        RequestOptions()
+                            .placeholder(R.drawable.loading_animation)
+                            .error(R.drawable.ic_broken_image))
+                    .into(binding.imageView4)
+            }
+
+        })
+
+
+
         setHasOptionsMenu(true)
         //setHasOptionsMenu(true)
         return binding.root

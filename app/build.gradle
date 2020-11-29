@@ -101,6 +101,7 @@ dependencies {
     // Glide
     implementation "com.github.bumptech.glide:glide:$version_glide"
 
+    implementation "android.arch.work:work-runtime-ktx:$version_work"
 
     // Testing
     testImplementation 'junit:junit:4.12'

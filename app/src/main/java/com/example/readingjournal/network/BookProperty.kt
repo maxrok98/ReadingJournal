@@ -15,6 +15,8 @@ data class BookProperty(
 data class BookInfo(
     val title: String,
     val authors: List<String>,
+    @Json(name = "publishedDate")
+    val publishedDate: String,
     @Json(name = "imageLinks")
     val imgSrcUrl: ImageList
 )

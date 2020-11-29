@@ -5,13 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.readingjournal.models.Book
+import com.example.readingjournal.models.LastPublishedBook
 import com.example.readingjournal.models.Notation
 
-@Database(entities = [Book::class, Notation::class], version = 1, exportSchema = false)
+@Database(entities = [Book::class, Notation::class, LastPublishedBook::class], version = 1, exportSchema = false)
 abstract class BooksDatabase : RoomDatabase() {
 
     abstract val booksDatabaseDao: BooksDatabaseDao
     abstract val notationsDatabaseDao: NotationsDatabaseDao
+    abstract val lastBookDatabaseDao: LastBookDatabaseDao
 
     companion object{
 

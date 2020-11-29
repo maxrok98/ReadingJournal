@@ -10,7 +10,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val BASE_URL = "https://www.googleapis.com/"
-enum class MarsApiFilter(val value: String) { SHOW_RENT("rent"), SHOW_BUY("buy"), SHOW_ALL("all") }
+//enum class MarsApiFilter(val value: String) { SHOW_RENT("rent"), SHOW_BUY("buy"), SHOW_ALL("all") }
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -40,6 +40,10 @@ interface BookApiService {
      */
     @GET("/books/v1/volumes")
     suspend fun getProperties(@Query("q") isbn: String): BookWrapper
+
+    @GET("/books/v1/volumes")
+    suspend fun getLastScienceBook(@Query("q") q: String = "subject:Science", @Query("orderBy") orderBy: String = "newest", @Query("maxResults") maxResult: String = "1" ): BookWrapper
+
 }
 
 /**
