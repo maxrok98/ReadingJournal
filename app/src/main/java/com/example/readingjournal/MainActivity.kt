@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     var num: Int = 0;
     private lateinit var Timer: Timer
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         super.onCreate(savedInstanceState)
         Timber.i("onCreate Called")
         Timer = Timer(this.lifecycle)
@@ -27,9 +28,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         val binding =
             DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val navController = this.findNavController(R.id.myNavHostFragment)
-        //NavigationUI.setupActionBarWithNavController(this, navController)
+        NavigationUI.setupActionBarWithNavController(this, navController)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
     }
 

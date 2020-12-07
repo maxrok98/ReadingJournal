@@ -16,7 +16,7 @@
     <fragment
         android:id="@+id/listOfBooks"
         android:name="com.example.readingjournal.ListOfBooks"
-        android:label="ListOfBooks" >
+        android:label="List of books">
         <action
             android:id="@+id/action_listOfBooks_to_newBook"
             app:destination="@id/newBook"
@@ -28,8 +28,8 @@
     <fragment
         android:id="@+id/newBook"
         android:name="com.example.readingjournal.NewBook"
-        android:label="fragment_new_book"
-        tools:layout="@layout/fragment_new_book" >
+        android:label="New book"
+        tools:layout="@layout/fragment_new_book">
         <action
             android:id="@+id/action_newBook_to_listOfBooks"
             app:destination="@id/listOfBooks"
@@ -38,8 +38,8 @@
     <fragment
         android:id="@+id/listOfNotations"
         android:name="com.example.readingjournal.ListOfNotations"
-        android:label="fragment_list_of_notations"
-        tools:layout="@layout/fragment_list_of_notations" >
+        android:label="List of notations"
+        tools:layout="@layout/fragment_list_of_notations">
         <argument
             android:name="bookId"
             app:argType="long" />
@@ -50,8 +50,8 @@
     <fragment
         android:id="@+id/openNotation"
         android:name="com.example.readingjournal.OpenNotation"
-        android:label="fragment_open_notation"
-        tools:layout="@layout/fragment_open_notation" >
+        android:label="Notation"
+        tools:layout="@layout/fragment_open_notation">
         <argument
             android:name="notationId"
             app:argType="long" />
@@ -59,11 +59,11 @@
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.example.readingjournal.About"
-        android:label="fragment_about"
+        android:label="About"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/rulesFragment"
         android:name="com.example.readingjournal.Rules"
-        android:label="fragment_rules"
+        android:label="Rules"
         tools:layout="@layout/fragment_rules" />
 </navigation>

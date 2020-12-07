@@ -11,95 +11,95 @@
           type="com.example.readingjournal.viewmodels.ListOfNotationViewModel" />
    </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/constraintLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".ListOfNotations" >
-
-   <TextView
-       android:id="@+id/textView2"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="@{viewModel.book.title}"
-       android:textSize="36sp"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent" />
-
-   <TextView
-       android:id="@+id/textView3"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="28dp"
-       android:text="@{viewModel.book.author}"
-       android:textSize="18sp"
-       android:textStyle="italic"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintHorizontal_bias="0.501"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-   <ListView
-       android:id="@+id/listOfNotations"
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:id="@+id/constraintLayout"
        android:layout_width="match_parent"
-       android:layout_height="200sp"
-       android:layout_marginTop="4dp"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/textView3" />
+       android:layout_height="match_parent"
+       android:padding="16dp"
+       tools:context=".ListOfNotations">
 
-   <TextView
-       android:id="@+id/textView4"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="Create new notation"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/listOfNotations" />
+      <TextView
+          android:id="@+id/textView2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@{viewModel.book.title}"
+          android:textSize="36sp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
 
-   <EditText
-       android:id="@+id/notationTitle"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:inputType="textPersonName"
-       android:hint="Title"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/textView4" />
+      <TextView
+          android:id="@+id/textView3"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="28dp"
+          android:text="@{viewModel.book.author}"
+          android:textSize="18sp"
+          android:textStyle="italic"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.501"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-   <Button
-       android:id="@+id/newNotationButton"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="@string/save"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent" />
+      <ListView
+          android:id="@+id/listOfNotations"
+          android:layout_width="match_parent"
+          android:layout_height="200sp"
+          android:layout_marginTop="4dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-   <EditText
-       android:id="@+id/notationText"
-       android:layout_width="match_parent"
-       android:layout_height="0dp"
-       android:gravity="start|top"
-       android:inputType="textMultiLine"
-       android:hint="@string/text"
-       app:layout_constraintBottom_toTopOf="@+id/newNotationButton"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/notationTitle" />
+      <TextView
+          android:id="@+id/textView4"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Create new notation"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/listOfNotations" />
 
-   <Button
-       android:id="@+id/button2"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="@string/delete_all"
-       android:enabled="@{viewModel.clearButtonVisible}"
-       android:onClick="@{() -> viewModel.onClear()}"
-       app:layout_constraintBottom_toBottomOf="parent"
-       app:layout_constraintEnd_toEndOf="parent" />
+      <EditText
+          android:id="@+id/notationTitle"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="Title"
+          android:inputType="textPersonName"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+      <Button
+          android:id="@+id/newNotationButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/save"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent" />
+
+      <EditText
+          android:id="@+id/notationText"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:gravity="start|top"
+          android:hint="@string/text"
+          android:inputType="textMultiLine"
+          app:layout_constraintBottom_toTopOf="@+id/newNotationButton"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/notationTitle" />
+
+      <Button
+          android:id="@+id/button2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:enabled="@{viewModel.clearButtonVisible}"
+          android:onClick="@{() -> viewModel.onClear()}"
+          android:text="@string/delete_all"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent" />
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
