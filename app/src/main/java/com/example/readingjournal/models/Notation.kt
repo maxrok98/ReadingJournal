@@ -1,11 +1,10 @@
 package com.example.readingjournal.models
 
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import kotlinx.android.parcel.Parcelize
+import java.text.DateFormat
 import java.util.*
 
 @Entity(tableName = "notation_table",
@@ -29,7 +28,7 @@ data class Notation(
     var text: String,
 
     @ColumnInfo(name = "date")
-    var date: Long = System.currentTimeMillis(),
+    var date: String = DateFormat.getDateTimeInstance().format(Date()),
 
     @ColumnInfo(name = "likes")
     var likes: Long = 0

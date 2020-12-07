@@ -5,119 +5,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ListOfBooks"
     >
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="List of books"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <!-- <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.496">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+    >
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/author_list"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="BookTitle"
-                        android:textSize="40sp">
-
-                    </TextView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="BookAuthor"
-                        android:textSize="20sp">
-
-                    </TextView>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:id="@+id/new_notation_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                app:singleSelection="true"
+                app:singleLine="true"
+                android:padding="@dimen/spacing_normal"/>
+        </HorizontalScrollView>
 
 
-                    android:text="Create new notation" />
-
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>-->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        >
-        <!--<ListView
-            android:id="@+id/bookList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/bookList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:padding="@dimen/spacing_normal"
+            android:clipToPadding="false"
             />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/newBookButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-
-        <Button
-            android:id="@+id/newBookButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create new book" />
-
-    </LinearLayout>
-</LinearLayout>
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/spacing_normal"
+        style="@style/MaterialFloatingButton"
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        android:tint="@color/onPrimaryDark"
+        />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

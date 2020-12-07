@@ -19,7 +19,8 @@
         android:label="ListOfBooks" >
         <action
             android:id="@+id/action_listOfBooks_to_newBook"
-            app:destination="@id/newBook" />
+            app:destination="@id/newBook"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_listOfBooks_to_listOfNotations"
             app:destination="@id/listOfNotations" />
@@ -28,7 +29,12 @@
         android:id="@+id/newBook"
         android:name="com.example.readingjournal.NewBook"
         android:label="fragment_new_book"
-        tools:layout="@layout/fragment_new_book" />
+        tools:layout="@layout/fragment_new_book" >
+        <action
+            android:id="@+id/action_newBook_to_listOfBooks"
+            app:destination="@id/listOfBooks"
+            app:popUpTo="@id/opening" />
+    </fragment>
     <fragment
         android:id="@+id/listOfNotations"
         android:name="com.example.readingjournal.ListOfNotations"

@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">Reading Journal</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Reading Journal</string>
     <string name="likes_d">Likes: %d</string>
     <string name="cleared_notations_message">All notations from this book is deleted</string>
+    <string name="open">Open</string>
+    <string name="last_published_science_book">Last published science book</string>
+    <string name="save">Save</string>
+    <string name="text">Text</string>
+    <string name="delete_all">Delete all</string>
+    <string name="load_info">Load info about book via isbn</string>
+    <string name="loaded">Info about book is already loaded</string>
 </resources>

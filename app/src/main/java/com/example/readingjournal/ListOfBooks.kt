@@ -17,8 +17,8 @@ import com.example.readingjournal.databinding.FragmentListOfBooksBinding
 import com.example.readingjournal.models.Book
 import com.example.readingjournal.viewmodels.ListOfBooksViewModel
 import com.example.readingjournal.viewmodelfactories.ListOfBooksViewModelFactory
+import com.google.android.material.chip.Chip
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -29,7 +29,6 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class ListOfBooks : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -82,6 +81,30 @@ class ListOfBooks : Fragment() {
             }
         })
 
+        viewModel.authorList.observe(viewLifecycleOwner, object: Observer<List<String>> {
+            override fun onChanged(data: List<String>?) {
+                data ?: return
+                val chipGroup = binding.authorList
+                val inflator = LayoutInflater.from(chipGroup.context)
+
+                val children = data.map { regionName ->
+                    val chip = inflator.inflate(R.layout.author, chipGroup, false) as Chip
+                    chip.text = regionName
+                    chip.tag = regionName
+                    chip.setOnCheckedChangeListener { button, isChecked ->
+                        viewModel.onFilterChanged(button.tag as String, isChecked)
+                    }
+                    chip
+                }
+
+                chipGroup.removeAllViews()
+
+                for (chip in children) {
+                    chipGroup.addView(chip)
+                }
+            }
+        })
+
         //binding.bookList.setOnItemClickListener( AdapterView.OnItemClickListener { parent, view, position, id ->
         //    val it = parent.getItemIdAtPosition(position)
         //})
@@ -114,7 +137,6 @@ class ListOfBooks : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment ListOfBooks.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ListOfBooks().apply {

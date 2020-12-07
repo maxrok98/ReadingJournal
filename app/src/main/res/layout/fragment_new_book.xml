@@ -79,6 +79,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ISBN"
         android:layout_marginTop="6dp"
+        android:accessibilityLiveRegion="polite"
+        android:contentDescription="@string/load_info"
         android:text="Load info" />
 
     <TextView

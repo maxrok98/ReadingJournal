@@ -18,7 +18,6 @@ import timber.log.Timber
 import androidx.core.content.getSystemService
 import com.example.readingjournal.database.BooksDatabase
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -30,7 +29,6 @@ private const val LIKES_COUNT = "likesCount"
  * create an instance of this fragment.
  */
 class OpenNotation : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
     private var likesCount = 0
@@ -121,6 +119,7 @@ class OpenNotation : Fragment() {
             .setText("Test text")
             .setType("text/plain")
             .intent
+        // TODO: can not get data from view model
     }
 
     private fun shareSuccess() {
@@ -144,7 +143,6 @@ class OpenNotation : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment OpenNotation.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             OpenNotation().apply {

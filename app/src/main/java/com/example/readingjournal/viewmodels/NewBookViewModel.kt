@@ -55,11 +55,13 @@ class NewBookViewModel(private val database: BooksDatabaseDao): ViewModel() {
     }
 
     fun addBook(author: String, title: String) {
-        uiScope.launch {
-            var thumb: String? = null
-            if(_properties.value != null)
-                thumb = _properties.value!!.items[0].info.imgSrcUrl.thumbnail
-            addBooksToDb(Book(Author = author, Title = title, thumbnailURL = thumb))
+        if(author != null && title != null){
+            uiScope.launch {
+                var thumb: String? = null
+                if(_properties.value != null)
+                    thumb = _properties.value!!.items[0].info.imgSrcUrl.thumbnail
+                addBooksToDb(Book(Author = author, Title = title, thumbnailURL = thumb))
+            }
         }
     }
 

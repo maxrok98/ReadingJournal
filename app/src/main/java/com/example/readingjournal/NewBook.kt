@@ -16,7 +16,6 @@ import com.example.readingjournal.databinding.FragmentNewBookBinding
 import com.example.readingjournal.viewmodels.NewBookViewModel
 import com.example.readingjournal.viewmodelfactories.NewBookViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -27,7 +26,6 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class NewBook : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -64,13 +62,17 @@ class NewBook : Fragment() {
 
         binding.button.setOnClickListener { v ->
             viewModel.addBook(binding.bookAuthor.text.toString(), binding.bookTitle.text.toString())
+            v.findNavController().navigate(NewBookDirections.actionNewBookToListOfBooks())
         }
         binding.buttonLoadInfo.setOnClickListener { v ->
             viewModel.getBookFromApi(binding.ISBN.text.toString())
         }
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            if(it == "Done")
+            if(it == "Done") {
                 changeImage()
+                binding.buttonLoadInfo.text = "Done"
+                binding.buttonLoadInfo.contentDescription=getString(R.string.loaded)
+            }
         })
 
         binding.setLifecycleOwner(this)
@@ -110,7 +112,6 @@ class NewBook : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment NewBook.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             NewBook().apply {

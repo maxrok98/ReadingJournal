@@ -13,12 +13,7 @@ class BookRepository(private val database: BooksDatabase) {
     suspend fun refreshBook(){
         withContext(Dispatchers.IO){
             val lastBook = BookApi.retrofitService.getLastScienceBook()
-            val modelLastBook = LastPublishedBook(Id = 1,
-                                                    Author = lastBook.items[0].info.authors[0],
-                                                    Title = lastBook.items[0].info.title,
-                                                    thumbnailURL = lastBook.items[0].info.imgSrcUrl.thumbnail,
-                                                    publishDate = lastBook.items[0].info.publishedDate)
-            database.lastBookDatabaseDao.insertLastBook(modelLastBook)
+            database.lastBookDatabaseDao.insertLastBook(lastBook.asLastBookDataBaseModel())
         }
     }
 }

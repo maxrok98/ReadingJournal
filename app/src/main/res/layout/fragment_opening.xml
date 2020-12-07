@@ -11,7 +11,6 @@
             type="com.example.readingjournal.viewmodels.OpeningViewModel" />
     </data>
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,18 +18,20 @@
         android:gravity="center">
 
         <TextView
+            style="@style/TextAppearance.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/hello_blank_fragment"
-            android:textSize="36sp"
-            android:textStyle="italic" />
+            android:contentDescription="@string/hello_blank_fragment"
+            android:text="@string/hello_blank_fragment" />
         <Button
             android:id="@+id/open_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Open" />
+            style="@style/MaterialButton"
+            android:contentDescription="@string/open"
+            android:text="@string/open" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -41,8 +42,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Last published science book"
-                android:textSize="24sp"
+                android:text="@string/last_published_science_book"
+                style="@style/TextAppearance.Subtitle"
+                android:contentDescription="@string/last_published_science_book"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

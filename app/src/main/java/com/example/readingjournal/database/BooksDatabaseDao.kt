@@ -23,8 +23,11 @@ interface BooksDatabaseDao {
     fun get(key: Long): Book?
 
     @Query("SELECT * FROM books_table WHERE Author = :author")
-    fun getByAuthor(author: String) : List<Book>?
+    fun getByAuthor(author: String?) : List<Book>?
 
     @Query("SELECT * FROM books_table ORDER BY Id DESC")
-    fun getAllBooks(): LiveData<List<Book>>
+    fun getAllBooks(): List<Book>?
+
+    @Query("Select author from books_table group by author")
+    fun getAllAuthors(): List<String>?
 }

@@ -103,6 +103,8 @@ dependencies {
 
     implementation "android.arch.work:work-runtime-ktx:$version_work"
 
+    implementation "com.google.android.material:material:$version_material"
+
     // Testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
