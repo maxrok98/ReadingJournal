@@ -15,12 +15,12 @@ import com.example.readingjournal.R
 import com.example.readingjournal.databinding.BookListRow2Binding
 import com.example.readingjournal.models.Book
 
-class BooksRecyclerViewAdapter(val clickListener: BookListListener): ListAdapter<Book, BooksRecyclerViewAdapter.ViewHolder>(BookDiffCallBack()) {
+class BooksRecyclerViewAdapter(val clickListener: BookListListener, val clickDeleteListener: BookDeleteListener): ListAdapter<Book, BooksRecyclerViewAdapter.ViewHolder>(BookDiffCallBack()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
 
-        holder.bind(clickListener, item)
+        holder.bind(clickListener, clickDeleteListener, item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,8 +29,9 @@ class BooksRecyclerViewAdapter(val clickListener: BookListListener): ListAdapter
 
     class ViewHolder private constructor (val binding: BookListRow2Binding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(clickListener: BookListListener, item: Book){
+        fun bind(clickListener: BookListListener, clickDeleteListener: BookDeleteListener, item: Book){
             binding.clickListener = clickListener
+            binding.clickDeleteListener = clickDeleteListener
             binding.book = item
             item.thumbnailURL?.let {
                 val imgUri = it.toUri().buildUpon().scheme("http").build()
@@ -69,4 +70,8 @@ class BookDiffCallBack: DiffUtil.ItemCallback<Book>(){
 }
 class BookListListener(val clickListener: (bookId: Long) -> Unit){
     fun onClick(book: Book) = clickListener(book.Id)
+}
+
+class BookDeleteListener( val clickDeleteListener: (bookId: Long) -> Unit){
+    fun onDeleteClick(book: Book) = clickDeleteListener(book.Id)
 }

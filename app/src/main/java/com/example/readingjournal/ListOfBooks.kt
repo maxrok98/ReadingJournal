@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.readingjournal.adapters.BookDeleteListener
 import com.example.readingjournal.adapters.BookListListener
 import com.example.readingjournal.adapters.BooksListViewAdapter
 import com.example.readingjournal.adapters.BooksRecyclerViewAdapter
@@ -72,7 +73,9 @@ class ListOfBooks : Fragment() {
 
         val adapter = BooksRecyclerViewAdapter(BookListListener { bookId ->
             view?.findNavController()?.navigate(ListOfBooksDirections.actionListOfBooksToListOfNotations(bookId))
-        })
+        },
+        BookDeleteListener { bookId -> viewModel.deleteBook(bookId)})
+
         binding.bookList.adapter = adapter
 
         viewModel.books.observe(viewLifecycleOwner, Observer {

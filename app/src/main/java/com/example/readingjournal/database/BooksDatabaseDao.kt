@@ -19,6 +19,9 @@ interface BooksDatabaseDao {
     @Query("DELETE FROM books_table")
     suspend fun clear()
 
+    @Query("DELETE FROM books_table WHERE Id = :id")
+    fun delete(id: Long)
+
     @Query("SELECT * from books_table WHERE Id = :key")
     fun get(key: Long): Book?
 

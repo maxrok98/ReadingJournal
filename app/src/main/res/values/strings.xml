@@ -10,4 +10,6 @@
     <string name="delete_all">Delete all</string>
     <string name="load_info">Load info about book via isbn</string>
     <string name="loaded">Info about book is already loaded</string>
+    <string name="rules">1. You can add your own books\n2. You can search books via internet\n3. You can add as much notes as you want\n4. You can share your notes with other people</string>
+    <string name="about">This app is created for mindfull readers, who like to not just read and forget, but to read and try to discuss text with himself or with author in the form of notes!</string>
 </resources>
