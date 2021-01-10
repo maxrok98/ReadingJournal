@@ -29,9 +29,13 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         val navController = this.findNavController(R.id.myNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
-
-
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
 
     /** Lifecycle Methods **/
 
