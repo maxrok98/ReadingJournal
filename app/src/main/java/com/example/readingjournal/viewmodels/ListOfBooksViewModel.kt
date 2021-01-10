@@ -49,7 +49,7 @@ class ListOfBooksViewModel(private val database: BooksDatabaseDao) : ViewModel()
                     _books.value = database.getByAuthor(filter.currentValue)
                 }
                 else{
-                    // TODO: somehow get live data from db
+                    // TODO: somehow get live data from dV
                     _books.value = database.getAllBooks()
                 }
                 database.getAllAuthors().let { it ->

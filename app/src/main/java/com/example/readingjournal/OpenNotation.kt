@@ -115,8 +115,8 @@ class OpenNotation : Fragment() {
     private fun getShareIntent() : Intent {
         val args = OpenNotationArgs.fromBundle(requireArguments())
         return ShareCompat.IntentBuilder.from(requireActivity())
-            //.setText("My new notation\n Title: ${viewModel.notation.value!!.title}\n Text: ${viewModel.notation.value!!.text}")
-            .setText("Test text")
+            .setText("My new notation\n Title: ${viewModel.notation.value?.title}\n Text: ${viewModel.notation.value?.text}")
+            //.setText("Test text")
             .setType("text/plain")
             .intent
         // TODO: can not get data from view model
