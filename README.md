@@ -6,7 +6,7 @@ This app was developed as an exercise, while wathing [Developing Android Apps wi
  - filter books by author name
  - create new notations for each book
 
-<img src="images/image1.png" width="400" align="left">
-<img src="images/image2.png" width="400" align="right">
-<img src="images/image3.png" width="400" align="left">
-<img src="images/image4.png" width="400" align="right">
+<img src="images/image1.png" width="400" style="float: left">
+<img src="images/image2.png" width="400" style="float: right">
+<img src="images/image3.png" width="400" style="float: left">
+<img src="images/image4.png" width="400" style="float: right">
