@@ -100,11 +100,11 @@ class OpenNotationViewModel(private val notationId: Long,
                 not?.likes = not?.likes?.plus(1)!!
                 update(not)
                 initializeNotation()
+                if(not?.likes?.rem(10).equals(0L)) {
+                    _eventBuzz.value = BuzzType.CORRECT
+                }
             }
         }
-        //if(_notation.value!!.likes % 10 == 0) {
-        //    _eventBuzz.value = BuzzType.CORRECT
-        //}
     }
 
     fun onBuzzComplete() {
